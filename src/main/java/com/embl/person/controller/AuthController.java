@@ -6,6 +6,8 @@ import com.embl.person.entity.User;
 import com.embl.person.security.JwtTokenUtil;
 import com.embl.person.service.UserService;
 import com.embl.person.util.UrlKeys;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.binary.Base64;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
+@Api(value = "JWT Token", tags = "Generate Token API")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -36,7 +39,8 @@ public class AuthController {
     }
 
     @PostMapping(value = UrlKeys.TOKEN_GENERATE)
-    public ResponseEntity<Object> generateUserToken(@RequestBody final UserDto userDTO) {
+    @ApiOperation(value = "Generate JWT Token")
+    public ResponseEntity<Object> generateToken(@RequestBody final UserDto userDTO) {
         log.debug("Entered generateToken with userDto {}", userDTO);
         String password = StringUtils.defaultIfBlank(userDTO.getPassword(), StringUtils.EMPTY);
         password = StringUtils.toEncodedString(Base64.decodeBase64(password), Charsets.UTF_8);
@@ -44,7 +48,7 @@ public class AuthController {
                 .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getUsername(), password));
         final User user = userService.getUserByUsername(userDTO.getUsername());
         final String token = jwtTokenUtil.generateToken(user);
-        log.debug("Token generated for user {} is {} :", userDTO.getUsername(), token);
+        log.debug("Token generated for user {} :", userDTO.getUsername());
         return new ResponseEntity<>(new AuthToken(user.getUsername(), token), HttpStatus.OK);
     }
 }

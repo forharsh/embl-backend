@@ -11,4 +11,5 @@ public class Constants {
     public static final String SIGNING_KEY = "SomeEncodedKey"; //TODO will add later
     public static final String SCOPES = "scopes";
     public static final String EMBL = "OCC";
+    public static final String SWAGGER_BASE_PACKAGE = "com.embl.person.controller";
 }

@@ -26,6 +26,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
     private final JwtAuthenticationFilter authenticationFilter;
+    private static final String[] AUTH_WHITELIST = {
+            "/v2/api-docs",
+            "/swagger*/**",
+            "/configuration/**",
+            "/webjars/**",
+            TOKEN_GENERATE,
+            H2_CONSOLE
+    };
 
     @Autowired
     public SecurityConfig(final UserDetailsService userDetailsService, final JwtAuthenticationEntryPoint unauthorizedHandler, final JwtAuthenticationFilter authenticationFilter) {
@@ -51,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(TOKEN_GENERATE, H2_CONSOLE)
+                .antMatchers(AUTH_WHITELIST)
                 .permitAll()
                 .anyRequest().authenticated().and().exceptionHandling()
                 .authenticationEntryPoint(unauthorizedHandler).and().sessionManagement()

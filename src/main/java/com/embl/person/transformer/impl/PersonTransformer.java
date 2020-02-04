@@ -25,6 +25,7 @@ public class PersonTransformer implements Transformer<Person, PersonDto> {
     public Person convertToEntity(final PersonDto personDto) {
         final Person person = modelMapper.map(personDto, Person.class);
         Optional.ofNullable(personDto.getHobby()).ifPresent(hobbies -> person.setHobby(String.join(",", hobbies)));
+        person.setId(null);
         return person;
     }
 
