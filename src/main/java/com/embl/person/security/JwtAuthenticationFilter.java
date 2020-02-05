@@ -34,7 +34,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(final HttpServletRequest req, final HttpServletResponse res, final FilterChain chain)
             throws IOException, ServletException {
-        logger.info("================== " + req.getRequestURI());
         final String header = req.getHeader(Constants.HEADER_STRING);
         String username = null;
         String authToken = null;
