@@ -19,7 +19,6 @@ import static com.embl.person.util.UrlKeys.H2_CONSOLE;
 import static com.embl.person.util.UrlKeys.TOKEN_GENERATE;
 
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 

@@ -21,7 +21,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         final List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
         final ErrorResponse error = new ErrorResponse("Server Error", details);
-        return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(PersonNotFoundException.class)
@@ -29,7 +29,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         final List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
         final ErrorResponse error = new ErrorResponse("Record Not Found", details);
-        return new ResponseEntity(error, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
             details.add(error.getDefaultMessage());
         }
         final ErrorResponse error = new ErrorResponse("Validation Failed", details);
-        return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
 }

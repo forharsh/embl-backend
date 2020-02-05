@@ -40,7 +40,7 @@ public class AuthController {
 
     @PostMapping(value = UrlKeys.TOKEN_GENERATE)
     @ApiOperation(value = "Generate JWT Token")
-    public ResponseEntity<Object> generateToken(@RequestBody final UserDto userDTO) {
+    public ResponseEntity<AuthToken> generateToken(@RequestBody final UserDto userDTO) {
         log.debug("Entered generateToken with userDto {}", userDTO);
         String password = StringUtils.defaultIfBlank(userDTO.getPassword(), StringUtils.EMPTY);
         password = StringUtils.toEncodedString(Base64.decodeBase64(password), Charsets.UTF_8);

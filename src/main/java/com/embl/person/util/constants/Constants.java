@@ -12,4 +12,10 @@ public class Constants {
     public static final String SCOPES = "scopes";
     public static final String EMBL = "OCC";
     public static final String SWAGGER_BASE_PACKAGE = "com.embl.person.controller";
+    public static final String HEADER = "header";
+    public static final String API_KEY_NAME = "JWT";
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String SWAGGER_API_TITLE = "REST APIs related to Person Entity!!!!";
+    public static final String SWAGGER_API_DESCRIPTION = "Swagger ui lists all apis related to Person Entity";
+    public static final String SWAGGER_VERSION = "0.0.1-SNAPSHOT";
 }

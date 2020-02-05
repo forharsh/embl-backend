@@ -12,8 +12,4 @@ public class PersonNotFoundException extends Exception {
         super(message);
     }
 
-    public PersonNotFoundException(final String message, final Exception t) {
-        super(message, t);
-    }
-
 }
