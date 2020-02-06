@@ -25,7 +25,28 @@ The tech stack I choose are as follow:
 ### Build the Application
 
 You can build a single executable JAR file that contains all the necessary dependencies, classes, and resources, and run that.
-The JAR file will be create by executing the command `mvn package`, and the JAR file will be located under target directory.
+The JAR file will be create by executing the command `mvn clean package`, and the JAR file will be located under target directory.
+D:\embl-backend>mvn clean package
+[INFO] Scanning for projects...
+[INFO]
+[INFO] -----------------------< com.embl:embl-backend >------------------------
+[INFO] Building embl-backend 0.0.1-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-clean-plugin:3.1.0:clean (default-clean) @ embl-backend ---
+[INFO] Deleting D:\embl-backend\target
+[INFO]
+[INFO] --- jacoco-maven-plugin:0.7.9:prepare-agent (default) @ embl-backend ---
+[INFO] argLine set to -javaagent:C:\\Users\\harshvardhan\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.7.9\\org.jacoco.agent-0.7.9-runtime.jar=destfile=D:\\embl-backend\\target\\jacoco.exec
+[INFO]
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ embl-backend ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] Copying 0 resource
+[INFO]
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ embl-backend ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 30 source files to D:\embl-backend\target\classes
 
 ### Test the Application
 
