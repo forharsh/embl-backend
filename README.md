@@ -75,26 +75,24 @@ After successfully running the application, you can open your browser with the f
     ```
     Mentioned swagger link contains all the endpoints you can add request parameters and get the result.
 
-    Follow the below steps to test the api-
+3.    GENERATE TOKEN API
 
-        - Click on the `Generate Token API` and select the `POST /api/v1/generate-token` api and click on the `example value`
-        and then click on the 'Try it out' button. The below response will be displayed.
+      * Click on the `Generate Token API` and select the `POST /api/v1/generate-token` api and click on the `example value` and then click on the 'Try it out' button. The below response will be displayed.
+
         ```
         {
           "username": "admin",
           "token": <jwt-token>
         }
         ```
-        - Copy the token and click on the Authorize button at upper right corner and add value as `Bearer <jwt-token>` and
-        then click on 'Authorize' button. This step add the jwt token in the subsequent header.
+      * Copy the token and click on the Authorize button at upper right corner and add value as `Bearer <jwt-token>` and then click on 'Authorize' button. This step add the jwt token in the subsequent header.
         ```
          Note : The validity of jwt token is defined for 30 minutes. After 30 minutes, token will be expired. In code generation symmetric HSA26 algorithm is used
          to sign token.
         ```
-        * Create Person Entity
-        - Click on the `Person Api` and select the `POST /api/v1/person` api and click on the `example value`
-          and then click on the 'Try it out' button. The below response will be displayed.
-          ```
+4.    Create Person Entity
+      * Click on the `Person Api` and select the `POST /api/v1/person` api and click on the `example value` and then click on the 'Try it out' button. The below response will be displayed.
+        ```
           {
             "id": 1,
             "first_name": "John",
@@ -105,8 +103,8 @@ After successfully running the application, you can open your browser with the f
               "string"
             ]
           }
-          ```
-           Possible Http codes will be -
+        ```
+        Possible Http codes will be -
           Http Code               |    Description
           ------------------------|------------------------------------
           401                     |    Authentication is required to access the resource
@@ -115,28 +113,26 @@ After successfully running the application, you can open your browser with the f
           201                     |    Created
 
 
-        * Retrieve all persons
-        - Click on the `Person Api` and select the `GET /api/v1/person` api and click on the `example value`
-          and then click on the 'Try it out' button. The below response will be displayed.
-          ```
-                    {
-                      "id": 1,
-                      "first_name": "John",
-                      "last_name": "Smith",
-                      "age": 33,
-                      "favourite_colour": "red",
-                      "hobby": [
-                        "string"
-                      ]
-                    }
-                    ```
-                     Possible Http codes will be -
+      Retrieve all persons
+      * Click on the `Person Api` and select the `GET /api/v1/person` api and click on the `example value` and then click on the 'Try it out' button. The below response will be displayed.
+        ```
+          {
+            "id": 1,
+            "first_name": "John",
+            "last_name": "Smith",
+            "age": 33,
+            "favourite_colour": "red",
+            "hobby": [
+                "string"
+                    ]
+          }
+        Possible Http codes will be -
                     Http Code               |    Description
                     ------------------------|------------------------------------
                      401                    |    Authentication is required to access the resource
                      403                    |    You don't have required permission to access the resource
                      404                    |    The resource not found
-          ```
+                 
         * Retrieve  persons by Id
         - Click on the `Person Api` and select the `GET /api/v1/person/{id}` api and pass the person unique Id and click on the `example value`
           and then click on the 'Try it out' button. The below response will be displayed.
