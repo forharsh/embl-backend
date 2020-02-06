@@ -3,9 +3,9 @@ package com.embl.backend.controller;
 import com.embl.backend.dto.AuthToken;
 import com.embl.backend.dto.UserDto;
 import com.embl.backend.entity.User;
-import com.embl.backend.util.UrlKeys;
 import com.embl.backend.security.JwtTokenUtil;
 import com.embl.backend.service.UserService;
+import com.embl.backend.util.UrlKeys;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,6 @@ import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,6 +48,6 @@ public class AuthController {
         final User user = userService.getUserByUsername(userDTO.getUsername());
         final String token = jwtTokenUtil.generateToken(user);
         log.debug("Token generated for user {} :", userDTO.getUsername());
-        return new ResponseEntity<>(new AuthToken(user.getUsername(), token), HttpStatus.OK);
+        return ResponseEntity.ok(new AuthToken(user.getUsername(), token));
     }
 }

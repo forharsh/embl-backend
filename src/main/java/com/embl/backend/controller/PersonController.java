@@ -3,9 +3,9 @@ package com.embl.backend.controller;
 import com.embl.backend.dto.PersonDto;
 import com.embl.backend.entity.Person;
 import com.embl.backend.exception.PersonNotFoundException;
+import com.embl.backend.service.PersonService;
 import com.embl.backend.transformer.Transformer;
 import com.embl.backend.util.UrlKeys;
-import com.embl.backend.service.PersonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -63,6 +63,7 @@ public class PersonController {
     @GetMapping(UrlKeys.PERSON_BY_ID)
     @ApiOperation(value = "Retrieve person by personId")
     @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 401, message = "Authentication is required to access the resource"),
             @ApiResponse(code = 403, message = "You don't have required permission to access the resource"),
             @ApiResponse(code = 404, message = "The resource not found")
@@ -94,6 +95,7 @@ public class PersonController {
     @PutMapping(UrlKeys.PERSON_BY_ID)
     @ApiOperation(value = "Update person by Id with Request body")
     @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 201, message = "CREATED"),
             @ApiResponse(code = 401, message = "Authentication is required to access the resource"),
             @ApiResponse(code = 403, message = "You don't have required permission to access the resource"),
@@ -105,7 +107,7 @@ public class PersonController {
         person.setId(id);
         final PersonDto personDto1 = transformer.convertToDto(personService.updatePerson(person));
         log.debug("Leaving updatePerson (personDto={}, id={})", personDto1, id);
-        return new ResponseEntity<>(personDto1, HttpStatus.OK);
+        return ResponseEntity.ok(personDto1);
     }
 
     @DeleteMapping(UrlKeys.PERSON_BY_ID)
@@ -119,6 +121,6 @@ public class PersonController {
         log.debug("Enter deletePerson (id={})", id);
         personService.deletePerson(id);
         log.debug("Leaving deletePerson (id={})", id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 }
