@@ -26,6 +26,7 @@ The tech stack I choose are as follow:
 
 You can build a single executable JAR file that contains all the necessary dependencies, classes, and resources, and run that.
 The JAR file will be create by executing the command `mvn clean package`, and the JAR file will be located under target directory.
+```
 D:\embl-backend>mvn clean package
 [INFO] Scanning for projects...
 [INFO]
@@ -47,6 +48,7 @@ D:\embl-backend>mvn clean package
 [INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ embl-backend ---
 [INFO] Changes detected - recompiling the module!
 [INFO] Compiling 30 source files to D:\embl-backend\target\classes
+```
 
 ### Test the Application
 
