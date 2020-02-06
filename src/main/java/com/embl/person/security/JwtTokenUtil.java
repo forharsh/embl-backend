@@ -9,7 +9,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
 import java.io.Serializable;
+import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -42,7 +45,7 @@ public class JwtTokenUtil implements Serializable {
     }
 
     private Claims getAllClaimsFromToken(final String token) {
-        return Jwts.parser().setSigningKey(Constants.SIGNING_KEY).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(Constants.SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(final String token) {
@@ -55,13 +58,16 @@ public class JwtTokenUtil implements Serializable {
     }
 
     private String doGenerateToken(final User user) {
-
+        SignatureAlgorithm signatureAlgorithm  = SignatureAlgorithm.HS256;
         final Claims claims = Jwts.claims().setSubject(user.getUsername());
         claims.put(SCOPES, user.getRoles().stream().map(Roles::getRole).collect(Collectors.toList()));
 
+        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(Constants.SECRET_KEY);
+        Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+
         return Jwts.builder().setClaims(claims).setIssuer(EMBL).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_VALIDITY_SECONDS * 1000))
-                .signWith(SignatureAlgorithm.HS256, Constants.SIGNING_KEY).compact();
+                .signWith(signatureAlgorithm, signingKey).compact();
     }
 
     public Boolean validateToken(final String token, final UserDetails userDetails) {
