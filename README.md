@@ -283,6 +283,7 @@ After successfully running the application, you can open your browser with the f
           401                    |    Authentication is required to access the resource
           403                    |    You don't have required permission to access the resource
           404                    |    The resource not found
+          200                    |    OK
 
 6.    ```
         Retrieve  persons by Id (GET -> /api/v1/person/{id})
@@ -307,6 +308,7 @@ After successfully running the application, you can open your browser with the f
           401                    |    Authentication is required to access the resource
           403                    |    You don't have required permission to access the resource
           404                    |    The resource not found
+           200                   |    OK
 
 7.    ```
         Update Person By Id (PUT -> /api/v1/person/{id})
@@ -331,7 +333,7 @@ After successfully running the application, you can open your browser with the f
           401                     |    Authentication is required to access the resource
           403                     |    You don't have required permission to access the resource
           404                     |    The resource not found
-          201                     |    Created
+          200                     |    OK
 
 8.    ```
       Delete Person By Id (DELETE -> /api/v1/person/{id})
