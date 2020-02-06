@@ -8,7 +8,7 @@ Problems which are solved in code -
 
 
 ### Tech Stack
-The tech stack I choose to use are list as follow:
+The tech stack I choose are as follow:
 * Java 8
 * Library
   * Lombok
@@ -17,6 +17,8 @@ The tech stack I choose to use are list as follow:
   * Spring Security
   * jjwt (JWT Token Library)
   * Apache Common codec (Util Library)
+  * Swagger
+  * Dockers
 * Spring-boot (Application)
 
 
@@ -29,8 +31,7 @@ The JAR file will be create by executing the command `mvn package`, and the JAR 
 
 You can run all the test cases written by executing the below command
 ```mvn test```
-Java Code Coverage plugin is also added which
-generate the code coverage percentage. Generated file will be located under embl-backend/target/site/jacoco/index.html
+Java Code Coverage plugin is also added which generate the code coverage percentage. Generated file will be located under embl-backend/target/site/jacoco/index.html
 
 ### Deploy the Application
 You can create a docker image by executing following command -
@@ -75,7 +76,9 @@ After successfully running the application, you can open your browser with the f
     ```
     Mentioned swagger link contains all the endpoints you can add request parameters and get the result.
 
-3.    GENERATE TOKEN API
+3.  ```
+    GENERATE TOKEN AP (POST -> /api/v1/generate-token)
+    ```
 
       * Click on the `Generate Token API` and select the `POST /api/v1/generate-token` api and click on the `example value` and then click on the 'Try it out' button. The below response will be displayed.
 
@@ -90,7 +93,9 @@ After successfully running the application, you can open your browser with the f
          Note : The validity of jwt token is defined for 30 minutes. After 30 minutes, token will be expired. In code generation symmetric HSA26 algorithm is used
          to sign token.
         ```
-4.    Create Person Entity
+4.  ```
+    Create Person Entity (POST -> /api/v1/person)
+    ```
       * Click on the `Person Api` and select the `POST /api/v1/person` api and click on the `example value` and then click on the 'Try it out' button. The below response will be displayed.
         ```
           {
@@ -105,15 +110,18 @@ After successfully running the application, you can open your browser with the f
           }
         ```
         Possible Http codes will be -
-          Http Code               |    Description
+
+          Code                    | Description
           ------------------------|------------------------------------
-          401                     |    Authentication is required to access the resource
-          403                     |    You don't have required permission to access the resource
-          404                     |    The resource not found
-          201                     |    Created
+          401                     | Authentication is required to access the resource
+          403                     | You don't have required permission to access the resource
+          404                     | The resource not found
+          201                     | Created
 
 
-      Retrieve all persons
+5.   ```
+        Retrieve all persons (GET -> /api/v1/person)
+     ```
       * Click on the `Person Api` and select the `GET /api/v1/person` api and click on the `example value` and then click on the 'Try it out' button. The below response will be displayed.
         ```
           {
@@ -126,39 +134,44 @@ After successfully running the application, you can open your browser with the f
                 "string"
                     ]
           }
+         ```
         Possible Http codes will be -
-                    Http Code               |    Description
-                    ------------------------|------------------------------------
-                     401                    |    Authentication is required to access the resource
-                     403                    |    You don't have required permission to access the resource
-                     404                    |    The resource not found
-                 
-        * Retrieve  persons by Id
-        - Click on the `Person Api` and select the `GET /api/v1/person/{id}` api and pass the person unique Id and click on the `example value`
-          and then click on the 'Try it out' button. The below response will be displayed.
-          ```
-                            {
-                              "id": 1,
-                              "first_name": "John",
-                              "last_name": "Smith",
-                              "age": 33,
-                              "favourite_colour": "red",
-                              "hobby": [
-                                "string"
-                              ]
-                            }
-                            ```
-                             Possible Http codes will be -
-                            Http Code               |    Description
-                            ------------------------|------------------------------------
-                             401                    |    Authentication is required to access the resource
-                             403                    |    You don't have required permission to access the resource
-                             404                    |    The resource not found
-          ```
-        * Update Person By Id
-                - Click on the `Person Api` and select the `PUT /api/v1/person/{id}` api and click on the `example value`
-                  and then click on the 'Try it out' button. The below response will be displayed.
-                  ```
+
+          Code                   |    Description
+          -----------------------|------------------------------------
+          401                    |    Authentication is required to access the resource
+          403                    |    You don't have required permission to access the resource
+          404                    |    The resource not found
+
+6.    ```
+        Retrieve  persons by Id (GET -> /api/v1/person/{id})
+      ```
+      * Click on the `Person Api` and select the `GET /api/v1/person/{id}` api and pass the person unique Id and click on the `example value` and then click on the 'Try it out' button. The below response will be displayed.
+        ```
+           {
+              "id": 1,
+             "first_name": "John",
+             "last_name": "Smith",
+             "age": 33,
+             "favourite_colour": "red",
+             "hobby": [
+                  "string"
+                     ]
+           }
+        ```
+        Possible Http codes will be -
+
+          Code                   |    Description
+          -----------------------|------------------------------------
+          401                    |    Authentication is required to access the resource
+          403                    |    You don't have required permission to access the resource
+          404                    |    The resource not found
+
+7.    ```
+        Update Person By Id (PUT -> /api/v1/person/{id})
+      ```
+      * Click on the `Person Api` and select the `PUT /api/v1/person/{id}` api and click on the `example value` and then click on the 'Try it out' button. The below response will be displayed.
+         ```
                   {
                     "id": 1,
                     "first_name": "John",
@@ -169,25 +182,27 @@ After successfully running the application, you can open your browser with the f
                       "string"
                     ]
                   }
-                  ```
-                   Possible Http codes will be -
-                  Http Code               |    Description
-                  ------------------------|------------------------------------
-                  401                     |    Authentication is required to access the resource
-                  403                     |    You don't have required permission to access the resource
-                  404                     |    The resource not found
-                  201                     |    Created
-                  ```
-        * Delete Person By Id
-                - Click on the `Person Api` and select the `DELETE /api/v1/person/{id}` api and pass the person Id
-                  and then click on the 'Try it out' button. Http resposne `No Content(204)` response will be displayed.
+         ```
+         Possible Http codes will be -
 
-                          Possible Http codes will be -
-                          Http Code               |    Description
-                          ------------------------|------------------------------------
-                          401                     |    Authentication is required to access the resource
-                          403                     |    You don't have required permission to access the resource
-                          ```
+          Codes                   |    Description
+          ------------------------|------------------------------------
+          401                     |    Authentication is required to access the resource
+          403                     |    You don't have required permission to access the resource
+          404                     |    The resource not found
+          201                     |    Created
+
+8.    ```
+      Delete Person By Id (DELETE -> /api/v1/person/{id})
+      ```
+      * Click on the `Person Api` and select the `DELETE /api/v1/person/{id}` api and pass the person Id and then click on the 'Try it out' button. Http resposne `No Content(204)` response will be displayed.
+
+         Possible Http codes will be -
+
+          Codes                   |    Description
+          ------------------------|------------------------------------
+          401                     |    Authentication is required to access the resource
+          403                     |    You don't have required permission to access the resource
 
 
 
