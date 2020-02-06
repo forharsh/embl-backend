@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: embl-backend-deployment
+  labels:
+    app: embl-backend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: embl-backend
+  template:
+    metadata:
+      labels:
+        app: embl-backend
+    spec:
+      containers:
+        - name: embl-backend
+          image: 172.30.59.175:5000/digitalfactory/travel-planner-backend:latest
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "2"
+            requests:
+              memory: "300Mi"
+              cpu: "0.2"
+          ports:
+            - name: http
+              containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: embl-backend-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: embl-backend
+  ports:
+    - targetPort: 8080
+      port: 8080
