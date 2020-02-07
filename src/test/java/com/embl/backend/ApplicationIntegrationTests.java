@@ -1,6 +1,7 @@
 package com.embl.backend;
 
 import com.embl.backend.dto.PersonDto;
+import com.embl.backend.dto.UserDto;
 import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 public class ApplicationIntegrationTests {
 
+    public static final String URL_TEMPLATE = "/api/v1/person";
+    public static final String INSERT_SQL = "classpath:insertRecords.sql";
+    public static final String DELETE_SQL = "classpath:deleteRecords.sql";
+
     @Autowired
     MockMvc mockMvc;
 
@@ -34,7 +39,7 @@ public class ApplicationIntegrationTests {
     @Test
     public void testShouldKnowHowToCreatePerson() throws Exception {
         final RequestBuilder requestBuilder = MockMvcRequestBuilders.post(
-                "/api/v1/person")
+                URL_TEMPLATE)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(getRequestBody())
                 .contentType(MediaType.APPLICATION_JSON);
@@ -46,7 +51,7 @@ public class ApplicationIntegrationTests {
     }
 
     @Test
-    public void testShouldHowToHandleWhenMandatoryFieldsNotInRequestToCreatePerson() throws Exception {
+    public void testShouldKnowHowToHandleValidationFailure() throws Exception {
         final RequestBuilder requestBuilder = MockMvcRequestBuilders.post(
                 "/api/v1/person")
                 .accept(MediaType.APPLICATION_JSON)
@@ -58,20 +63,20 @@ public class ApplicationIntegrationTests {
 
 
     @Test
-    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "classpath:insertPerson.sql" })
-    @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:deletePerson.sql" })
+    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = {INSERT_SQL})
+    @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = {DELETE_SQL})
     public void testShouldKnowHowToRetrievePerson() throws Exception {
-        final RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/person").accept(MediaType.APPLICATION_JSON);
+        final RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URL_TEMPLATE).accept(MediaType.APPLICATION_JSON);
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].first_name").value("Harsh"));
     }
 
     @Test
-    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "classpath:insertPerson.sql" })
-    @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:deletePerson.sql" })
+    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = {INSERT_SQL})
+    @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = {DELETE_SQL})
     public void testShouldKnowHowToRetrievePersonById() throws Exception {
-        final RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/person/{id}", 101).accept(MediaType.APPLICATION_JSON);
+        final RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URL_TEMPLATE + "/{id}", 101).accept(MediaType.APPLICATION_JSON);
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.age").value("33"))
@@ -80,16 +85,16 @@ public class ApplicationIntegrationTests {
 
     @Test
     public void testShouldKnowHowToRetrievePersonById_WhenPersonNotExist() throws Exception {
-        final RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/person/{id}", 4).accept(MediaType.APPLICATION_JSON);
+        final RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URL_TEMPLATE + "/{id}", 4).accept(MediaType.APPLICATION_JSON);
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "classpath:insertPerson.sql" })
-    @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:deletePerson.sql" })
+    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = {INSERT_SQL})
+    @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = {DELETE_SQL})
     public void testShouldKnowHowToUpdatePerson() throws Exception {
-        final RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/v1/person/{id}", 101)
+        final RequestBuilder requestBuilder = MockMvcRequestBuilders.put(URL_TEMPLATE + "/{id}", 101)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(getRequestBody())
                 .contentType(MediaType.APPLICATION_JSON);
@@ -99,12 +104,34 @@ public class ApplicationIntegrationTests {
     }
 
     @Test
-    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "classpath:insertPerson.sql" })
-    @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:deletePerson.sql" })
+    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = {INSERT_SQL})
+    @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = {DELETE_SQL})
     public void testShouldKnowHowToDeletePerson() throws Exception {
-        final RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/v1/person/{id}", 101);
+        final RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(URL_TEMPLATE + "/{id}", 101);
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = {INSERT_SQL})
+    @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = {DELETE_SQL})
+    public void testShouldKnowHowToCreateJWTToken() throws Exception {
+        final RequestBuilder requestBuilder = MockMvcRequestBuilders.post(
+                "/api/v1/generate-token")
+                .accept(MediaType.APPLICATION_JSON)
+                .content(getJWTRequestBody())
+                .contentType(MediaType.APPLICATION_JSON);
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.username").value("test"));
+    }
+
+    private String getJWTRequestBody() {
+        UserDto userDto = new UserDto();
+        userDto.setUsername("test");
+        userDto.setPassword("dGVzdA==");
+        return gson.toJson(userDto);
     }
 
     private String getRequestBody() {
