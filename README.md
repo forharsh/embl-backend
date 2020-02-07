@@ -6,6 +6,8 @@ Problems which are solved in code -
 2. Solution can be tested without the need to install it locally.
 3. Integrate Swagger which acts as a frontend to test the backend APIs.
 
+## Assumption
+I work on the assumption that favourite_color and hobby field are optional and rest of the input fields are mandatory.
 
 ### Tech Stack
 The tech stack I choose are as follow:
