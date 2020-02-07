@@ -54,7 +54,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person updatePerson(final Person person) {
+    public Person updatePerson(final Person person) throws PersonNotFoundException {
+        checkPersonExists(person.getId());
         return personRepository.save(person);
     }
 }

@@ -35,7 +35,7 @@ public interface PersonService {
      * @param person to update
      * @return updated person
      */
-    Person updatePerson(Person person);
+    Person updatePerson(Person person) throws PersonNotFoundException;
 
     /**
      * Retrieve person by Person Id.

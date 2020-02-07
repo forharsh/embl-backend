@@ -107,7 +107,7 @@ public class PersonController {
             @ApiResponse(code = 403, message = "You don't have required permission to access the resource"),
             @ApiResponse(code = 404, message = "The resource not found")
     })
-    public ResponseEntity<PersonDto> updatePerson(@PathVariable("id") final long id, @Valid @RequestBody final PersonDto personDto) {
+    public ResponseEntity<PersonDto> updatePerson(@PathVariable("id") final long id, @Valid @RequestBody final PersonDto personDto) throws PersonNotFoundException {
         log.debug("Enter updatePerson (personDto={}, id={})", personDto, id);
         final Person person = transformer.convertToEntity(personDto);
         person.setId(id);

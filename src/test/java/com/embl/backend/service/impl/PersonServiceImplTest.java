@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -28,11 +27,25 @@ public class PersonServiceImplTest {
     PersonServiceImpl personService;
 
     @Test
-    public void testShouldKnowHowToUpdatePerson() {
+    public void testShouldKnowHowToAddPerson() {
         when(personRepository.save(any(Person.class))).thenReturn(getPerson());
-        final Person person = personService.updatePerson(getPerson());
-        assertEquals("John", person.getFirst_name());
-        assertEquals("Smith", person.getLast_name());
+        personService.addPerson(getPerson());
+        verify(personRepository, times(1)).save(any(Person.class));
+    }
+
+    @Test(expected = PersonNotFoundException.class)
+    public void testShouldKnowHowToUpdatePerson_WhenPersonNotExist() throws PersonNotFoundException {
+        when(personRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(null));
+        personService.updatePerson(getPerson());
+        verify(personRepository, times(0)).save(any(Person.class));
+    }
+
+    @Test
+    public void testShouldKnowHowToUpdatePerson() throws PersonNotFoundException {
+        when(personRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(new Person()));
+        when(personRepository.save(any(Person.class))).thenReturn(getPerson());
+        personService.updatePerson(getPerson());
+        verify(personRepository, times(1)).save(any(Person.class));
     }
 
     @Test
@@ -46,13 +59,14 @@ public class PersonServiceImplTest {
     public void testShouldKnowHowToDeletePersonWhenPersonDoesNotExists() throws PersonNotFoundException {
         when(personRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(null));
         personService.deletePerson(3L);
+        verify(personRepository, times(1)).delete(any(Person.class));
     }
 
     @Test
     public void testShouldKnowHowToGetAllPersons() {
         when(personRepository.findAll()).thenReturn(getPersonList());
-        final List<Person> allPersons = personService.getAllPersons();
-        assertEquals(1, allPersons.size());
+        personService.getAllPersons();
+        verify(personRepository, times(1)).findAll();
     }
 
     @Test(expected = PersonNotFoundException.class)
@@ -66,16 +80,8 @@ public class PersonServiceImplTest {
     public void testShouldKnowHowToGetPersonByIdWhenPersonExists() throws PersonNotFoundException {
         when(personRepository.findById(any(Long.class))).thenReturn(Optional.of(new Person()));
         when(personRepository.getOne(any(Long.class))).thenReturn(getPerson());
-        final Person personById = personService.getPersonById(1L);
+        personService.getPersonById(1L);
         verify(personRepository, times(1)).getOne(any(Long.class));
-        assertEquals("Smith", personById.getLast_name());
-    }
-
-    @Test
-    public void testShouldKnowHowToUpdatePersonDtl() {
-        when(personRepository.save(any(Person.class))).thenReturn(getPerson());
-        personService.updatePerson(getPerson());
-        verify(personRepository, times(1)).save(any(Person.class));
     }
 
     private List<Person> getPersonList() {
@@ -96,6 +102,7 @@ public class PersonServiceImplTest {
         smith.setFirst_name("John");
         smith.setLast_name("Smith");
         smith.setHobby("shopping");
+        smith.setId(1L);
         return smith;
     }
 
