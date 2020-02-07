@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,8 +90,12 @@ public class PersonController {
         log.debug("Enter createPerson (personDto={})", personDto);
         final Person person = transformer.convertToEntity(personDto);
         final PersonDto personDto1 = transformer.convertToDto(personService.addPerson(person));
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(personDto1.getId())
+                .toUri();
         log.debug("Leaving createPerson (personDto={})", personDto1);
-        return new ResponseEntity<>(personDto1, HttpStatus.CREATED);
+        return ResponseEntity.created(location).body(personDto1);
     }
 
     @PutMapping(UrlKeys.PERSON_BY_ID)

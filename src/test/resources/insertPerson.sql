@@ -1,0 +1,1 @@
+INSERT INTO PERSON(ID,FIRST_NAME, LAST_NAME, AGE, FAVOURITE_COLOUR, HOBBY) VALUES(101, 'Harsh', 'Vardhan', 33, 'white', 'shopping');
