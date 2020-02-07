@@ -1,6 +1,6 @@
 package com.embl.backend.security;
 
-import com.embl.backend.util.constants.Constants;
+import com.embl.backend.util.constants.AppConstants;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -25,6 +25,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
     public void commence(final HttpServletRequest request, final HttpServletResponse response,
                          final AuthenticationException authException) throws IOException {
 
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, Constants.UNAUTHORIZED);
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, AppConstants.UNAUTHORIZED);
     }
 }

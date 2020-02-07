@@ -1,6 +1,6 @@
 package com.embl.backend.config;
 
-import com.embl.backend.util.constants.Constants;
+import com.embl.backend.util.constants.AppConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -22,21 +22,21 @@ public class SwaggerConfig {
     @Bean
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(getApiInfo()).select()
-                .apis(RequestHandlerSelectors.basePackage(Constants.SWAGGER_BASE_PACKAGE)).build().securitySchemes(Arrays.asList(apiKey()));
+                .apis(RequestHandlerSelectors.basePackage(AppConstants.SWAGGER_BASE_PACKAGE)).build().securitySchemes(Arrays.asList(apiKey()));
     }
 
     private ApiInfo getApiInfo() {
         Contact contact =  new Contact("Harsh Vardhan", "https://gitlab.com/forharsh", "infoharsh87@gmail.com");
         return new ApiInfoBuilder()
-                    .title(Constants.SWAGGER_API_TITLE)
-                    .description(Constants.SWAGGER_API_DESCRIPTION)
-                    .version(Constants.SWAGGER_VERSION)
+                    .title(AppConstants.SWAGGER_API_TITLE)
+                    .description(AppConstants.SWAGGER_API_DESCRIPTION)
+                    .version(AppConstants.SWAGGER_VERSION)
                     .contact(contact)
                     .build();
     }
 
     private ApiKey apiKey() {
-        return new ApiKey(Constants.API_KEY_NAME, Constants.AUTHORIZATION_HEADER, Constants.HEADER);
+        return new ApiKey(AppConstants.API_KEY_NAME, AppConstants.AUTHORIZATION_HEADER, AppConstants.HEADER);
     }
 
 }

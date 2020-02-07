@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Constants {
+public class AppConstants {
     public static final String HEADER_STRING = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer";
     public static final int ACCESS_TOKEN_VALIDITY_SECONDS = 2 * 10 * 90;

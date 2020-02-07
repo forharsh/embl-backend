@@ -1,6 +1,6 @@
 package com.embl.backend.security;
 
-import com.embl.backend.util.constants.Constants;
+import com.embl.backend.util.constants.AppConstants;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,11 +34,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(final HttpServletRequest req, final HttpServletResponse res, final FilterChain chain)
             throws IOException, ServletException {
-        final String header = req.getHeader(Constants.HEADER_STRING);
+        final String header = req.getHeader(AppConstants.HEADER_STRING);
         String username = null;
         String authToken = null;
-        if (header != null && header.startsWith(Constants.TOKEN_PREFIX)) {
-            authToken = header.replace(Constants.TOKEN_PREFIX, "");
+        if (header != null && header.startsWith(AppConstants.TOKEN_PREFIX)) {
+            authToken = header.replace(AppConstants.TOKEN_PREFIX, "");
             try {
                 username = jwtTokenUtil.getUsernameFromToken(authToken);
             } catch (final IllegalArgumentException e) {
