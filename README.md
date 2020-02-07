@@ -52,7 +52,7 @@ D:\embl-backend>mvn clean package
 
 ### Test the Application
 
-You can run all the test cases written by executing the below command
+You can run all the test cases(Unit + Integration) written by executing the below command
 ```mvn test```
 Java Code Coverage plugin is also added which generate the code coverage percentage. Generated file will be located under embl-backend/target/site/jacoco/index.html
 ```
