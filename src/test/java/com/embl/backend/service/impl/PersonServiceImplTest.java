@@ -4,13 +4,14 @@ package com.embl.backend.service.impl;
 import com.embl.backend.entity.Person;
 import com.embl.backend.exception.PersonNotFoundException;
 import com.embl.backend.repository.PersonRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,25 +27,41 @@ public class PersonServiceImplTest {
     @InjectMocks
     PersonServiceImpl personService;
 
+    List<Person> personList;
+    Person person;
+
+    @Before
+    public void setUp() {
+        personList = new ArrayList<>();
+        person = new Person();
+        person.setAge(33);
+        person.setFavourite_colour("red");
+        person.setFirst_name("John");
+        person.setLast_name("Smith");
+        person.setHobby("shopping");
+        person.setId(1L);
+        personList.add(person);
+    }
+
     @Test
     public void testShouldKnowHowToAddPerson() {
-        when(personRepository.save(any(Person.class))).thenReturn(getPerson());
-        personService.addPerson(getPerson());
+        when(personRepository.save(any(Person.class))).thenReturn(person);
+        personService.addPerson(person);
         verify(personRepository, times(1)).save(any(Person.class));
     }
 
     @Test(expected = PersonNotFoundException.class)
     public void testShouldKnowHowToUpdatePerson_WhenPersonNotExist() throws PersonNotFoundException {
         when(personRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(null));
-        personService.updatePerson(getPerson());
+        personService.updatePerson(person);
         verify(personRepository, times(0)).save(any(Person.class));
     }
 
     @Test
     public void testShouldKnowHowToUpdatePerson() throws PersonNotFoundException {
         when(personRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(new Person()));
-        when(personRepository.save(any(Person.class))).thenReturn(getPerson());
-        personService.updatePerson(getPerson());
+        when(personRepository.save(any(Person.class))).thenReturn(person);
+        personService.updatePerson(person);
         verify(personRepository, times(1)).save(any(Person.class));
     }
 
@@ -64,7 +81,7 @@ public class PersonServiceImplTest {
 
     @Test
     public void testShouldKnowHowToGetAllPersons() {
-        when(personRepository.findAll()).thenReturn(getPersonList());
+        when(personRepository.findAll()).thenReturn(personList);
         personService.getAllPersons();
         verify(personRepository, times(1)).findAll();
     }
@@ -79,32 +96,9 @@ public class PersonServiceImplTest {
     @Test
     public void testShouldKnowHowToGetPersonByIdWhenPersonExists() throws PersonNotFoundException {
         when(personRepository.findById(any(Long.class))).thenReturn(Optional.of(new Person()));
-        when(personRepository.getOne(any(Long.class))).thenReturn(getPerson());
+        when(personRepository.getOne(any(Long.class))).thenReturn(person);
         personService.getPersonById(1L);
         verify(personRepository, times(1)).getOne(any(Long.class));
     }
-
-    private List<Person> getPersonList() {
-        final Person smith = new Person();
-        smith.setAge(33);
-        smith.setFavourite_colour("red");
-        smith.setFirst_name("John");
-        smith.setLast_name("Smith");
-        smith.setHobby("shopping");
-        return Arrays.asList(smith);
-    }
-
-
-    private Person getPerson() {
-        final Person smith = new Person();
-        smith.setAge(33);
-        smith.setFavourite_colour("red");
-        smith.setFirst_name("John");
-        smith.setLast_name("Smith");
-        smith.setHobby("shopping");
-        smith.setId(1L);
-        return smith;
-    }
-
 
 }
